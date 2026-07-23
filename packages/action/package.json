@@ -1,0 +1,11 @@
+{
+  "name": "@driftlint/action",
+  "version": "0.1.0-alpha.0",
+  "description": "GitHub Action wrapper for the driftlint CLI (composite, no build)",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "action.yml",
+    "README.md"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "driftlint",
+  "version": "0.1.0-alpha.0",
+  "description": "Deterministic linter that fails CI when your docs drift from your code.",
+  "keywords": [
+    "documentation",
+    "docs",
+    "drift",
+    "linter",
+    "cli",
+    "markdown",
+    "ci"
+  ],
+  "homepage": "https://github.com/shro-2002/driftlint#readme",
+  "bugs": "https://github.com/shro-2002/driftlint/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shro-2002/driftlint.git",
+    "directory": "packages/cli"
+  },
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "driftlint": "./dist/main.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@driftlint/core": "workspace:*"
+  }
+}

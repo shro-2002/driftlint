@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Beta feedback form (2 minutes)
+    url: https://example.com/driftlint-beta-feedback
+    about: Quick structured feedback on your first run — the fastest way to help. Replace with the real form URL before the beta.
+  - name: Questions & discussion
+    url: https://github.com/shro-2002/driftlint/discussions
+    about: Ask a question or share how you're using driftlint (not a bug).

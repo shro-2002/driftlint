@@ -1,0 +1,56 @@
+{
+  "name": "@driftlint/core",
+  "version": "0.1.0-alpha.0",
+  "description": "Deterministic engine that detects when documentation drifts from code.",
+  "keywords": [
+    "documentation",
+    "docs",
+    "drift",
+    "linter",
+    "markdown",
+    "static-analysis"
+  ],
+  "homepage": "https://github.com/shro-2002/driftlint#readme",
+  "bugs": "https://github.com/shro-2002/driftlint/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shro-2002/driftlint.git",
+    "directory": "packages/core"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "fast-glob": "3.3.3",
+    "remark-gfm": "4.0.1",
+    "remark-parse": "11.0.0",
+    "unified": "11.0.5",
+    "unist-util-visit": "5.0.0"
+  },
+  "devDependencies": {
+    "@types/mdast": "4.0.4",
+    "@types/unist": "3.0.3"
+  }
+}

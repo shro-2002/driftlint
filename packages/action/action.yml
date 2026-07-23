@@ -1,0 +1,46 @@
+name: 'Driftlint'
+description: 'Fail CI when documentation drifts from code — deterministic doc-vs-code linter.'
+author: 'driftlint'
+branding:
+  icon: 'check-circle'
+  color: 'purple'
+
+inputs:
+  path:
+    description: 'Directory to scan.'
+    required: false
+    default: '.'
+  config:
+    description: 'Path to a driftlint config JSON (optional).'
+    required: false
+    default: ''
+  reporter:
+    description: 'Output reporter: github (annotations), pretty, or json.'
+    required: false
+    default: 'github'
+  driftlint-cmd:
+    description: 'Command that runs the driftlint CLI. Override to pin a version or run a local build.'
+    required: false
+    default: 'npx --yes driftlint'
+
+runs:
+  using: 'composite'
+  steps:
+    # Invokes the published CLI only (ADR-0001) — no business logic here.
+    # Inputs go through env, never string-interpolated into the script, to avoid
+    # workflow command injection.
+    - shell: bash
+      env:
+        DL_PATH: ${{ inputs.path }}
+        DL_CONFIG: ${{ inputs.config }}
+        DL_REPORTER: ${{ inputs.reporter }}
+        DL_CMD: ${{ inputs['driftlint-cmd'] }}
+      run: |
+        set -euo pipefail
+        args=(check "$DL_PATH" --reporter "$DL_REPORTER")
+        if [ -n "$DL_CONFIG" ]; then
+          args+=(--config "$DL_CONFIG")
+        fi
+        # DL_CMD is an operator-provided command prefix (e.g. "npx --yes driftlint").
+        # shellcheck disable=SC2086
+        exec $DL_CMD "${args[@]}"

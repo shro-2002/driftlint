@@ -1,0 +1,5 @@
+{
+  "rules": {
+    "file-path-exists": "off"
+  }
+}

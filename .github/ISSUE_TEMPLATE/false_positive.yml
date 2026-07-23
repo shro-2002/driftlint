@@ -1,0 +1,64 @@
+name: False positive
+description: driftlint flagged something that is NOT actually drift
+labels: [false-positive, beta]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you — false-positive reports are the most valuable during the beta.
+        Please share the smallest doc snippet that reproduces it. **Do not paste your whole repo.**
+  - type: input
+    id: version
+    attributes:
+      label: driftlint version
+      placeholder: '0.1.0-alpha.0'
+    validations:
+      required: true
+  - type: dropdown
+    id: rule
+    attributes:
+      label: Which rule fired?
+      options:
+        - file-path-exists
+        - npm-script-exists
+        - import-path-resolves
+        - not sure
+    validations:
+      required: true
+  - type: textarea
+    id: finding
+    attributes:
+      label: The finding
+      description: Paste driftlint's output line(s).
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: snippet
+    attributes:
+      label: Minimal doc snippet
+      description: The lines of markdown that triggered it (a few lines is enough).
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it is wrong
+      description: What did the doc actually mean? Is the referenced thing real, an example, an instruction to the reader, etc.?
+    validations:
+      required: true
+  - type: input
+    id: structure
+    attributes:
+      label: Relevant repo structure
+      description: Just the directories/files involved (e.g. "src/ exists, but src/index.js is only a tutorial example").
+    validations:
+      required: false
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: 'macOS 15 / Node 22 / monorepo'
+    validations:
+      required: false

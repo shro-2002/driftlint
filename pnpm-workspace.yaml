@@ -1,0 +1,7 @@
+packages:
+  - packages/*
+
+# Supply-chain hardening (pnpm >= 10.26)
+minimumReleaseAge: 10080 # wait 7 days before installing newly published versions
+trustPolicy: no-downgrade
+blockExoticSubdeps: true
