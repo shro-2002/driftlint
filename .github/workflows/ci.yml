@@ -46,6 +46,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
+      - name: Dogfood — driftlint must pass on its own docs
+        run: node packages/cli/dist/main.js check .
 
   action:
     # End-to-end check of the composite Action against the local CLI build.

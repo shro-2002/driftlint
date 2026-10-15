@@ -12,7 +12,7 @@ Flags inline-code file paths referenced in docs that do not exist in the workspa
 
 A referenced path is considered present if it exists **either** relative to the repo root **or** relative to the doc's own directory. So `` `adr/0000-template.md` `` inside `docs/README.md` resolves to `docs/adr/0000-template.md`.
 
-Two precision guards (corpus-validated, [ADR-0010](../adr/0010-corpus-driven-precision-tightening.md)):
+Two precision guards (added after corpus runs):
 
 - **Parent-directory guard:** a missing path is flagged only if its parent directory exists in the repo. A reference into a directory the repo doesn't have is treated as illustrative/external (tutorial paths, MIME types like `application/json`, cross-repo references) and skipped.
 - **Ignored directories:** paths into `node_modules`, `dist`, `build`, `coverage`, `.git`, `.cache`, `.vscode`, `.idea` are skipped — generated or editor-local, their absence is expected.

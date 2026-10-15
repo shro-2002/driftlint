@@ -10,7 +10,7 @@ driftlint checks that the file paths, npm scripts, and imports your documentatio
 npx driftlint check
 ```
 
-> **Alpha:** `npm install -g driftlint@alpha` or `npx driftlint@alpha`.
+> **Alpha, not yet on npm.** Build from source as described in the [root README](../../README.md#install).
 
 ## What it catches
 
@@ -18,7 +18,7 @@ npx driftlint check
 - **npm-script-exists** — `` `npm run build` `` referencing a script not in any `package.json`.
 - **import-path-resolves** (opt-in) — a bare import in a fenced code block that isn't a declared dependency.
 
-It reads README, `docs/`, and agent files (`CLAUDE.md`, `AGENTS.md`). Validated to a 0.37% false-positive rate across 122 real repositories.
+It reads README, `docs/`, and agent files (`CLAUDE.md`, `AGENTS.md`). Tuned for precision; see the root README for how precision is measured.
 
 ## Usage
 

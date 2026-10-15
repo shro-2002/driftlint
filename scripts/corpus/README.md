@@ -18,9 +18,9 @@ pnpm --filter @driftlint/core build
 node scripts/corpus/analyze.mjs "$CORPUS"
 ```
 
-`analyze.mjs` prints per-category counts + examples and writes `summary.json`. Latest results: research/precision/.
+`analyze.mjs` prints per-category counts + examples and writes `summary.json`.
 
 - `repos.txt` — the curated repo list (the reproducible definition; clones are never committed).
 - `analyze.mjs` — runs driftlint per repo, aggregates findings, auto-categorizes, measures runtime + peak RSS.
 
-Clones are disposable. To make this a CI gate (TD-012), pin commit SHAs and cache the clones.
+Clones are disposable. To make this a CI gate, pin commit SHAs and cache the clones.
