@@ -12,12 +12,16 @@ driftlint catches that drift. It verifies that the file paths, npm scripts, and 
 
 ## Install
 
-```sh
-npx driftlint@alpha check          # zero-install, one-off
-npm install -g driftlint@alpha     # or install the CLI
-```
+driftlint is **not yet published to npm**. Run it from source (Node.js ≥ 22, pnpm via Corepack):
 
-Requires Node.js ≥ 22.
+```sh
+git clone https://github.com/shro-2002/driftlint.git
+cd driftlint
+corepack enable
+pnpm install --frozen-lockfile
+pnpm build
+node packages/cli/dist/main.js check /path/to/your/repo
+```
 
 ## Quick start
 
@@ -49,10 +53,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: shro-2002/driftlint/packages/action@v0.1.0-alpha.0
+      - uses: shro-2002/driftlint/packages/action@main # pin a commit SHA in real use
         with:
           path: .
 ```
+
+The Action builds driftlint from its own source on the runner, so it does not depend on an npm package.
 
 Findings appear as inline PR annotations on the exact line:
 
@@ -70,9 +76,9 @@ Full Action reference: [packages/action/README.md](packages/action/README.md).
 | [`npm-script-exists`](docs/rules/npm-script-exists.md)       | inline `npm/pnpm/yarn/bun run <script>` not defined anywhere | error        |
 | [`import-path-resolves`](docs/rules/import-path-resolves.md) | bare imports in JS/TS fences that aren't declared deps       | off (opt-in) |
 
-driftlint scans `**/*.md`, `**/*.mdx`, and agent files (`CLAUDE.md`, `AGENTS.md`). Rule reference: [docs/rules/](docs/rules/README.md).
+driftlint scans `**/*.md` and `**/*.mdx`, including agent files (`CLAUDE.md`, `AGENTS.md`). It skips `node_modules`, `dist`, `coverage` and test-fixture folders (`**/tests/fixtures/**`, `**/__fixtures__/**`). Rule reference: [docs/rules/](docs/rules/README.md).
 
-**Precision:** validated across 122 real OSS repos to a **0.37% false-positive rate** (report). driftlint prefers a missed finding to a false alarm.
+**Precision:** driftlint is tuned to prefer a missed finding over a false alarm. A reproducible harness for measuring precision on real open-source repos is in [scripts/corpus/](scripts/corpus/README.md); a published precision report is not available yet.
 
 ## Suppressing findings
 
@@ -116,7 +122,7 @@ Zero-config auto-discovery is coming; today the config is passed explicitly.
 
 ## How it works
 
-`discovery → markdown parse (remark) → claim extraction → workspace index → rules → findings`. Rules read the repo only through a read-only index and never execute your code (architecture, ADR-0006).
+`discovery → markdown parse (remark) → claim extraction → workspace index → rules → findings`. Rules read the repo only through a read-only index and never execute your code.
 
 ## Contributing
 

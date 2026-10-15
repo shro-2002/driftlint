@@ -1,6 +1,6 @@
 # @driftlint/core
 
-Deterministic doc-vs-code drift engine. Every driftlint surface (CLI, VS Code, MCP, GitHub Action) is a thin adapter over this package (ADR-0001).
+Deterministic doc-vs-code drift engine. The CLI and the GitHub Action are thin adapters over this package.
 
 > **Status: Rule Set v1 (Phase 4B).** Three deterministic rules. See [docs/rules/](../../docs/rules/README.md).
 
@@ -14,13 +14,13 @@ const result = await driftlint.run();
 console.log(pretty(result));
 ```
 
-`result` is a `RunResult`: `{ findings, stats }`. Findings are sorted by `(file, line, column, ruleId)` — the same repo state always yields byte-identical findings (ADR-0006, D-014).
+`result` is a `RunResult`: `{ findings, stats }`. Findings are sorted by `(file, line, column, ruleId)` — the same repo state always yields byte-identical findings.
 
 ## Pipeline
 
 `discovery → parser (remark/mdast) → extractors → workspace-index → rules → findings`
 
-Rules read the repository only through `WorkspaceIndex`; they never touch the filesystem or network (ADR-0002). The engine never executes the scanned repo's code (ADR-0006).
+Rules read the repository only through `WorkspaceIndex`; they never touch the filesystem or network. The engine never executes the scanned repo's code.
 
 ## Rules
 

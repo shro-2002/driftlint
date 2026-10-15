@@ -19,14 +19,19 @@ inputs:
     required: false
     default: 'github'
   driftlint-cmd:
-    description: 'Command that runs the driftlint CLI. Override to pin a version or run a local build.'
+    description: 'Optional command prefix that runs the driftlint CLI. Empty (default) builds the CLI from this repository.'
     required: false
-    default: 'npx --yes driftlint'
+    default: ''
 
 runs:
   using: 'composite'
   steps:
-    # Invokes the published CLI only (ADR-0001) — no business logic here.
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      with:
+        node-version: '22'
+
+    # Builds the CLI from the Action's own checkout, so the Action never installs
+    # an unpinned package from npm. No verification logic lives here.
     # Inputs go through env, never string-interpolated into the script, to avoid
     # workflow command injection.
     - shell: bash
@@ -37,10 +42,20 @@ runs:
         DL_CMD: ${{ inputs['driftlint-cmd'] }}
       run: |
         set -euo pipefail
+        if [ -z "$DL_CMD" ]; then
+          dl_root="$(cd "$GITHUB_ACTION_PATH/../.." && pwd)"
+          (
+            cd "$dl_root"
+            corepack enable
+            pnpm install --frozen-lockfile
+            pnpm --filter @driftlint/core --filter driftlint build
+          ) >&2
+          DL_CMD="node $dl_root/packages/cli/dist/main.js"
+        fi
         args=(check "$DL_PATH" --reporter "$DL_REPORTER")
         if [ -n "$DL_CONFIG" ]; then
           args+=(--config "$DL_CONFIG")
         fi
-        # DL_CMD is an operator-provided command prefix (e.g. "npx --yes driftlint").
+        # DL_CMD is either the local build above or an operator-provided prefix.
         # shellcheck disable=SC2086
         exec $DL_CMD "${args[@]}"
